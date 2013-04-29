@@ -13,15 +13,25 @@ NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 let g:neocomplcache_enable_at_startup = 1
 
-filetype plugin indent on 
 filetype indent on
+filetype plugin on
 syntax on
 
-" go
-au BufRead,BufNewFile *.go set filetype=go
-if $GOROOT != ''
-	set rtp+=$GOROOT/misc/vim
-endif
-
+" line number
 set number
+
+
+" search
+set hlsearch
+set incsearch
+
+" ESC,ESCでハイライトoff
+nnoremap <Esc><Esc> :<C-u>set nohlsearch<Return>
+
+" 「/」「?」「*」「#」が押されたらハイライトをON
+nnoremap / :<C-u>set hlsearch<Return>/
+nnoremap ? :<C-u>set hlsearch<Return>?                
+nnoremap * :<C-u>set hlsearch<Return>*
+nnoremap # :<C-u>set hlsearch<Return>#
+
 
