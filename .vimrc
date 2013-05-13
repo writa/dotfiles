@@ -1,4 +1,3 @@
-set nocompatible              
 filetype off
 
 
@@ -11,6 +10,7 @@ NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
+NeoBundle 'davidoc/taskpaper.vim'
 let g:neocomplcache_enable_at_startup = 1
 
 filetype indent on
@@ -48,14 +48,20 @@ set ignorecase
 set hidden
 
 " 検索などで飛んだらそこを真ん中に
-nmap n nzz
-nmap N Nzz
-nmap * *zz
-nmap # #zz
-nmap g* g*zz
-nmap g# g#zz
-nmap G Gzz
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
+nnoremap G Gzz
 
-"usキーボードで使いやすく
-nmap ; :
+" usキーボードで使いやすく
+nnoremap ; :
+nnoremap : ;
 
+" vimgrepで検索したさいの設定
+nnoremap [q :cprevious<CR>   " 前へ
+nnoremap ]q :cnext<CR>       " 次へ
+nnoremap [Q :<C-u>cfirst<CR> " 最初へ
+nnoremap ]Q :<C-u>clast<CR>  " 最後へ
