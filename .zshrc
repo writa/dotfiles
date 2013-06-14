@@ -1,7 +1,18 @@
+# prompt
+case ${UID} in
+ # root
+ 0)
+  PROMPT='[%d]# '
+   ;;
+   # general
+   *)
+    PROMPT='[%d]$ '
+    ;;
+esac
+
 # 色を使用出来るようにする
 autoload -Uz colors
 colors
-
 # ヒストリの設定
 HISTFILE=~/.zsh_history
 HISTSIZE=1000000
@@ -68,6 +79,7 @@ alias sudo='sudo '
 # グローバルエイリアス
 alias -g G='| grep'
 alias -g L='| less'
+alias -g V='| vim -R -'
 
 # C で標準出力をクリップボードにコピーする
 # mollifier delta blog : http://mollifier.hatenablog.com/entry/20100317/p1
@@ -81,3 +93,40 @@ elif which putclip >/dev/null 2>&1 ; then
 	# Cygwin
         alias -g C='| putclip'
 fi
+
+# Go
+export GOBIN=~/bin
+export PATH=$PATH:/usr/local/go/bin:~/bin
+
+
+# Git 
+autoload -Uz VCS_INFO_get_data_git; VCS_INFO_get_data_git 2> /dev/null
+ 
+setopt prompt_subst
+setopt re_match_pcre
+ 
+function rprompt-git-current-branch {
+local name st color gitdir action
+if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
+return
+fi
+name=`git rev-parse --abbrev-ref=loose HEAD 2> /dev/null`
+if [[ -z $name ]]; then
+return
+fi
+gitdir=`git rev-parse --git-dir 2> /dev/null`
+action=`VCS_INFO_git_getaction "$gitdir"` && action="($action)"
+														 
+st=`git status 2> /dev/null`
+if [[ "$st" =~ "(?m)^nothing to" ]]; then
+color=%F{green}
+elif [[ "$st" =~ "(?m)^nothing added" ]]; then
+color=%F{yellow}
+elif [[ "$st" =~ "(?m)^# Untracked" ]]; then
+color=%B%F{red}
+else
+color=%F{red}
+fi
+echo "$color$name$action%f%b"
+}
+RPROMPT='(`rprompt-git-current-branch`)'
