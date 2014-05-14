@@ -1,8 +1,6 @@
 [user]
 	name = writa
 	email = kz.writa@gmail.com
-[core]
-	excludesfile = /Users/raita/.gitignore
 [color]
 	ui = auto
 [alias]
@@ -10,4 +8,9 @@
 	ci = commit
 	st = status
 	br = branch
-	hist = log --pretty=format:\\\"%h %ad | %s%d [%an]\\\" --graph --date=short
+	sh = stash
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	prum = pull --rebase upstream master
+[core]
+	excludesfile = ~/.gitignore
+	editor = /usr/bin/vim
