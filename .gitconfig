@@ -1,6 +1,6 @@
 [user]
 	name = writa
-	email = kz.writa@gmail.com
+	email = raita_kazunobu@cyberagent.co.jp
 [color]
 	ui = auto
 [alias]
@@ -12,5 +12,5 @@
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 	prum = pull --rebase upstream master
 [core]
-	excludesfile = ~/.gitignore
+	excludesfile = /Users/a12288/.gitignore
 	editor = /usr/bin/vim
