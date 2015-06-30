@@ -1,3 +1,6 @@
+PATH=/usr/local/bin:$PATH
+PATH=$HOME/.nodebrew/current/bin:$PATH
+
 # prompt
 case ${UID} in
  # root
@@ -81,6 +84,9 @@ alias -g G='| grep'
 alias -g L='| less'
 alias -g V='| vim -R -'
 
+# ssh
+alias -g U='-t sudo su - cloud-user'
+
 # C で標準出力をクリップボードにコピーする
 # mollifier delta blog : http://mollifier.hatenablog.com/entry/20100317/p1
 if which pbcopy >/dev/null 2>&1 ; then
@@ -97,36 +103,59 @@ fi
 # Go
 export GOBIN=~/bin
 export PATH=$PATH:/usr/local/go/bin:~/bin
+export PATH=$PATH:$GOPATH/bin
 
 
 # Git 
 autoload -Uz VCS_INFO_get_data_git; VCS_INFO_get_data_git 2> /dev/null
- 
 setopt prompt_subst
-setopt re_match_pcre
  
 function rprompt-git-current-branch {
-local name st color gitdir action
-if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
-return
-fi
-name=`git rev-parse --abbrev-ref=loose HEAD 2> /dev/null`
-if [[ -z $name ]]; then
-return
-fi
-gitdir=`git rev-parse --git-dir 2> /dev/null`
-action=`VCS_INFO_git_getaction "$gitdir"` && action="($action)"
-														 
-st=`git status 2> /dev/null`
-if [[ "$st" =~ "(?m)^nothing to" ]]; then
-color=%F{green}
-elif [[ "$st" =~ "(?m)^nothing added" ]]; then
-color=%F{yellow}
-elif [[ "$st" =~ "(?m)^# Untracked" ]]; then
-color=%B%F{red}
-else
-color=%F{red}
-fi
-echo "$color$name$action%f%b"
+        local name st color gitdir action
+        if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
+                return
+        fi
+        name=`git rev-parse --abbrev-ref=loose HEAD 2> /dev/null`
+        if [[ -z $name ]]; then
+                return
+        fi
+ 
+        gitdir=`git rev-parse --git-dir 2> /dev/null`
+        action=`VCS_INFO_git_getaction "$gitdir"` && action="($action)"
+ 
+        st=`git status 2> /dev/null`
+	if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+                color=%F{green}
+	elif [[ -n `echo "$st" | grep "^no changes added"` ]]; then
+                color=%F{yellow}
+	elif [[ -n `echo "$st" | grep "^# Changes to be committed"` ]]; then
+                color=%B%F{red}
+        else
+                color=%F{red}
+        fi
+ 
+        echo "$color$name$action%f%b"
 }
+
 RPROMPT='(`rprompt-git-current-branch`)'
+
+export VIMCLOJURE_SERVER_JAR="$HOME/lib/vimclojure/server-2.3.6.jar"
+
+# clojure 
+PATH=$PATH:/usr/local/Cellar/clojure/1.5.1/bin
+
+#source ~/.nvm/nvm.sh
+
+export PATH="$HOME/.rbenv/bin:$PATH" 
+eval "$(rbenv init -)"
+
+set bell-style none
+alias ctags='/usr/local/Cellar/ctags/5.8/bin/ctags'
+
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home
+
+# golang
+export GOPATH=/Users/a12288/Sources
+
+# hub
+function git(){hub "$@"} # zsh
