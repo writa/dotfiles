@@ -12,5 +12,5 @@
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 	prum = pull --rebase upstream master
 [core]
-	excludesfile = /Users/a12288/.gitignore
+	excludesfile = /Users/xxxxx/.gitignore
 	editor = /usr/bin/vim
